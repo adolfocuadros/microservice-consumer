@@ -13,7 +13,7 @@ class HttpService
     private $headers;
     
     private $client;
-    private $timeout= 2.0;
+    private $timeout= 5.0;
 
     private $success = false;
     private $error;
@@ -21,10 +21,13 @@ class HttpService
     private $request;
 
     function __construct($service) {
-        if(config('microservice.' . $service) == null) {
+        if(config('microservice.api.' . $service) == null) {
             throw new ServiceNotFoundException('Not found service: ' . $service);
         }
-        $this->microService = config('microservice.' . $service);
+        $this->microService = config('microservice.api.' . $service);
+        if(isset(getallheaders()['Auth-Token'])) {
+            $this->setAuthToken(getallheaders()['Auth-Token']);
+        }
     }
 
     /**
@@ -36,15 +39,11 @@ class HttpService
      * @throws NotFoundTokenException
      */
     public function consume($resource, $method = 'GET', $params, $headers = null) {
-        try {
-            $this->request = $this->client()->request($method, $resource, [
-                'form_params' => $params
-            ]);
-        } catch (\Exception $e) {
-            $this->success = false;
-            $this->error = $e;
-        }
+        $this->request = $this->client()->request($method, $resource, [
+            'form_params' => $params
+        ]);
         $this->success = true;
+        //return $this->request;
         return $this;
     }
 
@@ -52,11 +51,11 @@ class HttpService
      * @param callable $success
      * @param callable $fail
      */
-    public function then(callable $success, callable $fail) {
-        if($this->success) {
-            $success($this->request, $this->request->getStatusCode());
-        } else {
-            $fail($this->error);
+    public function then(callable $success = null, callable $fail = null) {
+        if($this->success && is_callable($success)) {
+            return $success($this->request, $this->request->getStatusCode());
+        } elseif(is_callable($fail)) {
+            return $fail($this->error);
         }
     }
 
@@ -69,6 +68,7 @@ class HttpService
         if(empty($this->authToken)) {
             throw new NotFoundTokenException('Token not found');
         }
+        //dd($this->microService);
         $this->client = new Client([
             'base_uri' => $this->microService,
             'timeout'  => $this->timeout,
@@ -93,5 +93,25 @@ class HttpService
      */
     public function addHeader($header, $value) {
         $this->headers[$header] = $value;
+    }
+
+    public function body() {
+        /*if($this->success) {
+            return \GuzzleHttp\json_decode($this->request->getBody()->getContents());
+        }*/
+        if($this->success) {
+            return $this->request->getBody()->getContents();
+        }
+        return null;
+    }
+    
+    public function responseJson() {
+        if($this->success) {
+            return response($this->request->getBody()->getContents(),
+                $this->request->getStatusCode(),
+                ['Content-Type'=>'application/json']);
+        }
+
+        return response('',200,['Content-Type'=>'application/json']);
     }
 }
