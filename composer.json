@@ -1,0 +1,19 @@
+{
+  "name": "adolfocuadros/microservice-consumer",
+  "description": "Herramientas para el consumo de API de micro servicio.",
+  "type": "package",
+  "require": {
+    "guzzlehttp/guzzle": "~6.0@dev"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Adolfo Cuadros",
+      "email": "ronnie.adolfo@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": { "Adolfocuadros\\MicroserviceConsumer\\": "src/" }
+  }
+}
