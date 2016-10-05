@@ -1,5 +1,5 @@
 <?php
-namespace Adolfocuadros\MicroserviceConsumer\Exceptions;
 
+namespace Adolfocuadros\RenqoMicroservice\Exceptions;
 
 class MicroserviceConsumerException extends \Exception {}

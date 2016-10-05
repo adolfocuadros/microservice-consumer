@@ -1,9 +1,9 @@
 <?php
 
-namespace Adolfocuadros\MicroserviceConsumer;
+namespace Adolfocuadros\RenqoMicroservice;
 
-use Adolfocuadros\MicroserviceConsumer\Exceptions\NotFoundTokenException;
-use Adolfocuadros\MicroserviceConsumer\Exceptions\ServiceNotFoundException;
+use Adolfocuadros\RenqoMicroservice\Exceptions\NotFoundTokenException;
+use Adolfocuadros\RenqoMicroservice\Exceptions\ServiceNotFoundException;
 use GuzzleHttp\Client;
 
 class HttpService

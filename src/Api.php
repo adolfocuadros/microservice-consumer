@@ -1,5 +1,5 @@
 <?php
-namespace Adolfocuadros\MicroserviceConsumer;
+namespace Adolfocuadros\RenqoMicroservice;
 
 
 class Api

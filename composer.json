@@ -1,7 +1,7 @@
 {
-  "name": "adolfocuadros/microservice-consumer",
-  "description": "Herramientas para el consumo de API de micro servicio.",
-  "type": "package",
+  "name": "adolfocuadros/renqo-microservice",
+  "description": "RENQO Microservice - Herramienta para puesta en marcha de un microservicio",
+  "type": "library",
   "require": {
     "guzzlehttp/guzzle": "~6.0@dev"
   },
@@ -14,6 +14,6 @@
   ],
   "minimum-stability": "dev",
   "autoload": {
-    "psr-4": { "Adolfocuadros\\MicroserviceConsumer\\": "src/" }
+    "psr-4": { "Adolfocuadros\\RenqoMicroservice\\": "src/" }
   }
 }

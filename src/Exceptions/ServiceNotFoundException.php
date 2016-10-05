@@ -1,6 +1,6 @@
 <?php
 
-namespace Adolfocuadros\MicroserviceConsumer\Exceptions;
+namespace Adolfocuadros\RenqoMicroservice\Exceptions;
 
 
 class ServiceNotFoundException extends MicroserviceConsumerException {}
