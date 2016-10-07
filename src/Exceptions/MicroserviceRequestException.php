@@ -42,4 +42,8 @@ class MicroserviceRequestException extends \Exception
     public function getHttpCode() {
         return $this->exception->getCode();
     }
+
+    public function getContents() {
+        return $this->exception->getResponse()->getBody()->getContents();
+    }
 }

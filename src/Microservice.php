@@ -29,10 +29,9 @@ class Microservice
 
     public function post($path, array $params = []) {
         try {
-
             $this->response = new Response($this->client->post($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
-            throw new MicroserviceRequestException('Error al procesar Solicitud', 1000, $e);
+            throw new MicroserviceRequestException('Error al procesar Solicitud: ' . $e->getMessage(), 1000, $e);
         }
         return $this->response;
     }
@@ -69,5 +68,9 @@ class Microservice
         if(!is_null($this->response)) {
             return $this->response;
         }
+    }
+
+    public function getPathRoot() {
+        return $this->path_root;
     }
 }

@@ -11,11 +11,14 @@ class Client extends ClientBase
     {
         $config = [
             'base_uri'=> $url,
-            'timeout' => 5.0,
-            'headers' => [
-                'Auth-Token' => getallheaders()['Auth-Token']
-            ]
+            'timeout' => 5.0
         ];
+
+        if(!empty(getallheaders()['Auth-Token'])) {
+            $config['headers'] = [
+                'Auth-Token' => getallheaders()['Auth-Token']
+            ];
+        }
 
         parent::__construct($config);
     }
