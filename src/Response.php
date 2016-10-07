@@ -23,6 +23,11 @@ class Response
 
     public function toArray()
     {
+        return get_object_vars(\GuzzleHttp\json_decode($this->response->getBody()->getContents()));
+    }
+
+    public function toObject()
+    {
         return \GuzzleHttp\json_decode($this->response->getBody()->getContents());
     }
 
