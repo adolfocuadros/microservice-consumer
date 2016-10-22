@@ -13,16 +13,16 @@ class Microservice
     private $response = null;
     private $client;
 
-    function __construct()
+    function __construct($token = null)
     {
-        $this->client = new Client($this->path_root);
+        $this->client = new Client($this->path_root, $token);
     }
 
     public function get($path, array $params = []) {
         try {
             $this->response = new Response($this->client->get($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
-            throw new MicroserviceRequestException('Error al procesar Solicitud', 1000, $e);
+            throw new MicroserviceRequestException($e->getMessage(), 1000, $e);
         }
         return $this->response;
     }
@@ -41,7 +41,7 @@ class Microservice
 
             $this->response = new Response($this->client->delete($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
-            throw new MicroserviceRequestException('Error al procesar Solicitud', 1000, $e);
+            throw new MicroserviceRequestException($e->getMessage(), 1000, $e);
         }
         return $this->response;
     }
@@ -51,7 +51,7 @@ class Microservice
 
             $this->response = new Response($this->client->patch($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
-            throw new MicroserviceRequestException('Error al procesar Solicitud', 1000, $e);
+            throw new MicroserviceRequestException($e->getMessage(), 1000, $e);
         }
         return $this->response;
     }
