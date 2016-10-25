@@ -18,7 +18,8 @@ class Microservice
         $this->client = new Client($this->path_root, $token);
     }
 
-    public function get($path, array $params = []) {
+    public function get($path, array $params = [])
+    {
         try {
             $this->response = new Response($this->client->get($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
@@ -27,7 +28,8 @@ class Microservice
         return $this->response;
     }
 
-    public function post($path, array $params = []) {
+    public function post($path, array $params = [])
+    {
         try {
             $this->response = new Response($this->client->post($path, ['form_params'=>$params]));
         } catch(RequestException $e) {
@@ -36,7 +38,8 @@ class Microservice
         return $this->response;
     }
 
-    public function delete($path, array $params = []) {
+    public function delete($path, array $params = [])
+    {
         try {
 
             $this->response = new Response($this->client->delete($path, ['form_params'=>$params]));
@@ -46,7 +49,8 @@ class Microservice
         return $this->response;
     }
 
-    public function patch($path, array $params = []) {
+    public function patch($path, array $params = [])
+    {
         try {
 
             $this->response = new Response($this->client->patch($path, ['form_params'=>$params]));
@@ -56,21 +60,35 @@ class Microservice
         return $this->response;
     }
 
-    public function create($path, array $params = []) {
+    public function create($path, array $params = [])
+    {
         return $this->post($path, $params);
     }
 
-    public function update($path, array $params = []) {
+    public function update($path, array $params = [])
+    {
         return $this->patch($path, $params);
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         if(!is_null($this->response)) {
             return $this->response;
         }
     }
 
-    public function getPathRoot() {
+    public function getPathRoot()
+    {
         return $this->path_root;
+    }
+
+    public static function request($tp = 'get', $uri = null, $params = []) {
+        $thisClass = get_called_class();
+        try {
+            $response = (new $thisClass())->$tp($uri, $params);
+        } catch (MicroserviceRequestException $e) {
+            abort($e->getHttpCode(), $e->getMessage());
+        }
+        return $response->toArray();
     }
 }
