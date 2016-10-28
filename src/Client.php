@@ -18,9 +18,9 @@ class Client extends ClientBase
             $config['headers'] = [
                 'Auth-Token' => $token
             ];
-        } elseif(!empty(request()->getHeader('Auth-Token'))) {
+        } elseif(!empty(request()->header('Auth-Token'))) {
             $config['headers'] = [
-                'Auth-Token' => request()->getHeader('Auth-Token')
+                'Auth-Token' => request()->header('Auth-Token')
             ];
         }
 
