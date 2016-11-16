@@ -70,6 +70,17 @@ class Microservice
         return $this->patch($path, $params);
     }
 
+    public function put($path, array $params = [])
+    {
+        try {
+
+            $this->response = new Response($this->client->put($path, ['form_params'=>$params]));
+        } catch(RequestException $e) {
+            throw new MicroserviceRequestException($e->getMessage(), 1000, $e);
+        }
+        return $this->response;
+    }
+
     public function getResponse()
     {
         if(!is_null($this->response)) {
@@ -89,6 +100,14 @@ class Microservice
         } catch (MicroserviceRequestException $e) {
             abort($e->getHttpCode(), $e->getMessage());
         }
+        return $response->toArray();
+    }
+
+    public static function requestWithErrors($tp = 'get', $uri = null, $params = []) {
+        $thisClass = get_called_class();
+
+        $response = (new $thisClass())->$tp($uri, $params);
+
         return $response->toArray();
     }
 }
