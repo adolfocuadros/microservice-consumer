@@ -15,6 +15,8 @@ class Microservice
 
     function __construct($token = null)
     {
+        $this->path_root = (substr($this->path_root, -1) == '/') ? $this->path_root : $this->path_root.'/';
+        
         $this->client = new Client($this->path_root, $token);
     }
 
